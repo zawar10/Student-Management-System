@@ -19,7 +19,7 @@ const Home = () => {
             Student <span className="text-red-600">Management</span> System
           </h1>
           <p className="text-gray-200 mt-4 text-lg">
-            "Organize, Manage, and Excel with Ease!"
+            "Organize, Manage and Excel with Ease!"
           </p>
         </div>
 
