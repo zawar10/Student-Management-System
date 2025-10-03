@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = ({ student }) => {
+const Card = ( { student}) => {
     return (
         <div className="bg-white/90 rounded-2xl shadow-lg p-6 w-74 h-56 flex flex-col 
                         justify-center items-center hover:shadow-2xl hover:scale-105 transform transition duration-300">
