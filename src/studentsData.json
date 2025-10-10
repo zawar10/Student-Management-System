@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Ali Khan",
+        "age": 19,
+        "class": "BSCS",
+        "grade": "A"
+    },
+    {
+        "name": "Sara Ahmed",
+        "age": 20,
+        "class": "BSIT",
+        "grade": "B+"
+    },
+    {
+        "name": "Usman Tariq",
+        "age": 21,
+        "class": "BBA",
+        "grade": "A-"
+    },
+    {
+        "name": "Ali Khan",
+        "age": 22,
+        "class": "BSDS",
+        "grade": "B"
+    },
+    {
+        "name": "Sara Ahmed",
+        "age": 23,
+        "class": "BSMS",
+        "grade": "C+"
+    },
+    {
+        "name": "Bilal Hussain",
+        "age": 24,
+        "class": "BSSE",
+        "grade": "A+"
+    },
+    {
+        "name": "Ahmed Khan",
+        "age": 25,
+        "class": "BSAI",
+        "grade": "C-"
+    },
+    {
+        "name": "Fatima Noor",
+        "age": 26,
+        "class": "BSMIT",
+        "grade": "A"
+    }
+]

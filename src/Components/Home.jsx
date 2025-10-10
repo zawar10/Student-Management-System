@@ -4,39 +4,6 @@ import bgImage from "../assets/bg-pic.jpg";
 
 const Home = () => {
 
-  const students = [
-    {
-      name: "Ali Khan",
-      roll: 101,
-      course: "BSCS",
-      dept: "Computer Science"
-    },
-    {
-      name: "Sara Ahmed",
-      roll: 102,
-      course: "BBA",
-      dept: "Business Administration"
-    },
-    {
-      name: "Bilal Hussain",
-      roll: 103,
-      course: "BSSE",
-      dept: "Software Engineering"
-    },
-    {
-      name: "Ahmed Khan",
-      roll: 104,
-      course: "BSDS",
-      dept: "Data Science"
-    },
-    {
-      name: "Fatima Noor",
-      roll: 105,
-      course: "BSIT",
-      dept: "Information Technology"
-    }
-  ]
-
   return (
     <div
       className="h-screen bg-cover bg-center flex flex-col items-center justify-center"
@@ -54,15 +21,6 @@ const Home = () => {
           <p className="text-gray-200 mt-4 text-lg">
             "Organize, Manage and Excel with Ease!"
           </p>
-        </div>
-
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {students.map((student) => (
-            <Card
-              key={student.roll}
-              student={student}
-            />
-          ))}
         </div>
       </div>
     </div>
