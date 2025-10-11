@@ -10,7 +10,7 @@ const AboutUs = () => {
         backgroundBlendMode: "darken",
       }}
     >
-      <h1 className="text-6xl font-bold text-red-700 mb-4">About Us</h1>
+      <h1 className="text-6xl font-bold text-white mb-4"><span className="text-red-600">About</span> Us</h1>
       <p className="max-w-7xl text-xl text-center text-white pt-40">
         The Student Management System is designed to make managing student
         information seamless and efficient. Teachers and admins can view,

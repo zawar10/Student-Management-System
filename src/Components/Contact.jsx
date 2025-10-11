@@ -10,14 +10,13 @@ const Contact = () => {
         backgroundBlendMode: "darken",
       }}
     >
-      <h1 className="text-6xl font-bold text-red-700 mb-4">Contact Us</h1>
+      <h1 className="text-6xl font-bold text-white mb-4"><span className="text-red-600">Contact</span> Us</h1>
+      <br />
       <p className="text-white mb-8 mt-6">
-         📍 Student Management System
-        <br />
-         ✉️ Email: info@smsportal.com
-        <br />
-         ☎️ Phone: +92-300-1234567
+         📍 Student Management System   ||   ✉️ Email: info@smsportal.com   ||   ☎️ Phone: +92-300-1234567
       </p>
+      <br />
+      <br />
 
       <form className="bg-white p-6 rounded-lg shadow-md w-80">
         <input

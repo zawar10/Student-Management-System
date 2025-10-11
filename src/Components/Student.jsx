@@ -75,7 +75,7 @@ const Student = () => {
         backgroundBlendMode: "darken",
       }}
     >
-      <h1 className="text-5xl font-bold text-red-700 mb-8">Students Page</h1>
+      <h1 className="text-4xl font-bold text-white mb-8">Student <span className="text-red-600">Details</span></h1>
       {students.length === 0 ? (
         <p className="text-gray-600">No Data Found 😞</p>
       ) : (
@@ -83,7 +83,7 @@ const Student = () => {
           {students.map((student) => (
             <div
               key={student.id}
-              className="bg-white rounded-xl shadow-md p-6 w-80 hover:scale-105 transition-transform"
+              className="bg-white rounded-xl shadow-md p-6 w-70 hover:scale-105 transition-transform"
             >
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {student.name}
