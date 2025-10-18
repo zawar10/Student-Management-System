@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import bgImage from "../assets/bg-pic.jpg";
 
 const Home = () => {
@@ -21,6 +22,23 @@ const Home = () => {
             "Organize, Manage and Excel with Ease!"
           </p>
         </div>
+      </div>
+      <div className="flex flex-col items-center gap-6 mt-8">
+        <Link to="/registration">
+        <button className="bg-red-700 text-white px-20 py-3 rounded-xl hover:bg-red-800">
+          Get Registered
+        </button>
+        </Link>
+        <Link to="/subjects">
+        <button className="bg-red-600 text-white px-19 py-3 rounded-xl hover:bg-red-700">
+          Offered Subjects
+        </button>
+        </Link>
+        <Link to="/cgpa">
+        <button className="bg-red-500 text-white px-19 py-3 rounded-xl hover:bg-red-600">
+          CGPA Calculator
+        </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,9 +1,25 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
 
   const [darkMode, setDarkMode] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    window.location.reload();
+    setIsLoggedIn(false);
+    setShowDropdown(false);
+    navigate("/login");
+  };
+
 
   return (
     <nav
@@ -25,6 +41,16 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
+            to="/registration"
+            className={({ isActive }) =>
+              isActive ? "text-red-600 font-extrabold" : "hover:text-red-500"
+            }
+          >
+            <strong>Register</strong>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/student"
             className={({ isActive }) =>
               isActive ? "text-red-600 font-extrabold" : "hover:text-red-500"
@@ -35,41 +61,76 @@ const Navbar = () => {
         </li>
         <li>
           <NavLink
-            to="/contact"
+            to="/subjects"
             className={({ isActive }) =>
               isActive ? "text-red-600 font-extrabold" : "hover:text-red-500"
             }
           >
-           <strong>Contact</strong> 
+            <strong>Subject</strong>
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="/about"
+            to="/cgpa"
             className={({ isActive }) =>
               isActive ? "text-red-600 font-extrabold" : "hover:text-red-500"
             }
           >
-            <strong>About</strong>
+            <strong>CGPA</strong>
           </NavLink>
         </li>
       </ul>
 
-      <div className="flex items-center space-x-4">
-        <button className="px-3 py-1 border rounded-lg hover:bg-red-700 hover:text-white transition">
-          Login
-        </button>
-        <button className="px-3 py-1 border rounded-lg hover:bg-green-500 hover:text-white transition">
-          Signup
-        </button>
+      {!isLoggedIn ? (
+        <>
+          <div className="flex items-center space-x-4">
+            <Link to="/login">
+              <button className="px-3 py-1 border rounded-lg hover:bg-red-700 hover:text-white transition">
+                Login
+              </button>
+            </Link>
+            <Link to="/signup">
+              <button className="px-3 py-1 border rounded-lg hover:bg-green-500 hover:text-white transition">
+                Signup
+              </button>
+            </Link>
 
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="ml-3 p-2 rounded-full border hover:bg-gray-700 transition"
-        >
-          {darkMode ? "🌙" : "☀️"}
-        </button>
-      </div>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="ml-3 p-2 rounded-full border hover:bg-gray-700 transition"
+            >
+              {darkMode ? "🌙" : "☀️"}
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className="flex items-center space-x-4">
+          <div className="relative">
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="flex items-center gap-2 bg-white text-black px-3 py-1 rounded-full hover:bg-gray-200"
+            >
+              👤 Admin
+            </button>
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-md">
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2 rounded-full border hover:bg-gray-700 transition"
+          >
+            {darkMode ? "🌙" : "☀️"}
+          </button>
+        </div>
+      )}
     </nav>
 
   );

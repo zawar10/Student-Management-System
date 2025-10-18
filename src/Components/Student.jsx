@@ -1,109 +1,122 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import bgImage from "../assets/bg-pic.jpg";
 
 const Student = () => {
+  const [students, setStudents] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({ name: "", roll: "", department: "" });
 
-  const [students, setStudents] = useState([ 
-  {
-    "id": 1, 
-    "name": "Ali Khan",
-    "age": 19,
-    "class": "BSCS",
-    "grade": "A"
-  },
-  {
-    "id": 2,
-    "name": "Sara Ahmed",
-    "age": 20,
-    "class": "BSIT",
-    "grade": "B+"
-  },
-  {
-    "id": 3,
-    "name": "Usman Tariq",
-    "age": 21,
-    "class": "BBA",
-    "grade": "A-"
-  },
-  {
-    "id": 4,
-    "name": "Abdullah Ali",
-    "age": 22,
-    "class": "BSDS",
-    "grade": "B"
-  },
-  {
-    "id": 5,
-    "name": "Maryam Shah",
-    "age": 23,
-    "class": "BSMS",
-    "grade": "C+"
-  },
-  {
-    "id": 6,
-    "name": "Bilal Hussain",
-    "age": 24,
-    "class": "BSSE",
-    "grade": "A+"
-  },
-  {
-    "id": 7,
-    "name": "Ahmed Khan",
-    "age": 25,
-    "class": "BSAI",
-    "grade": "C-"
-  },
-  {
-    "id": 8,
-    "name": "Fatima Noor",
-    "age": 26,
-    "class": "BSMIT",
-    "grade": "A"
-  }
-]);
+  useEffect(() => {
+    const savedStudents = JSON.parse(localStorage.getItem("students")) || [];
+    setStudents(savedStudents);
+  }, []);
 
   const handleDelete = (id) => {
-    setStudents(students.filter((student) => student.id !== id));
+    const updated = students.filter((s) => s.id !== id);
+    setStudents(updated);
+    localStorage.setItem("students", JSON.stringify(updated));
+  };
+
+  const handleEdit = (student) => {
+    setEditingId(student.id);
+    setEditForm({
+      name: student.name,
+      roll: student.roll,
+      department: student.department,
+    });
+  };
+
+  const handleSave = () => {
+    const updatedStudents = students.map((s) =>
+      s.id === editingId ? { ...s, ...editForm } : s
+    );
+    setStudents(updatedStudents);
+    localStorage.setItem("students", JSON.stringify(updatedStudents));
+    setEditingId(null);
+    setEditForm({ name: "", roll: "", department: "" });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10 pt-24"
+    <div
+      className="min-h-screen flex flex-col items-center py-10 pt-24"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundColor: "rgba(0,0,0,0.6)",
         backgroundBlendMode: "darken",
       }}
     >
-      <h1 className="text-4xl font-bold text-white mb-8">Student <span className="text-red-600">Details</span></h1>
+      <h1 className="text-4xl font-bold text-white mb-8">
+        Student <span className="text-red-600">Details</span>
+      </h1>
+
       {students.length === 0 ? (
-        <p className="text-gray-600">No Data Found 😞</p>
+        <p className="text-white text-lg">No Students Registered Yet </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {students.map((student) => (
             <div
               key={student.id}
-              className="bg-white rounded-xl shadow-md p-6 w-70 hover:scale-105 transition-transform"
+              className="bg-white rounded-xl shadow-md p-6 w-72 hover:scale-105 transition-transform"
             >
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {student.name}
-              </h2>
-              <p>Age: {student.age}</p>
-              <p>Class: {student.class}</p>
-              <p>Grade: {student.grade}</p>
-              <div className="flex justify-between mt-4">
-                <Link to={`/students/${student.id}`} state={student}>
-                  <button className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600">
-                    View
+              {editingId === student.id ? (
+                <>
+                  <input
+                    className="border p-1 mb-2 w-full rounded"
+                    value={editForm.name}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, name: e.target.value })
+                    }
+                  />
+                  <input
+                    className="border p-1 mb-2 w-full rounded"
+                    value={editForm.roll}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, roll: e.target.value })
+                    }
+                  />
+                  <input
+                    className="border p-1 mb-2 w-full rounded"
+                    value={editForm.department}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, department: e.target.value })
+                    }
+                  />
+                  <button
+                    onClick={handleSave}
+                    className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 w-full"
+                  >
+                    Save
                   </button>
-                </Link>
-                <button
-                  onClick={() => handleDelete(student.id)}
-                  className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </div>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                    {student.name}
+                  </h2>
+                  <p>Roll No: {student.roll}</p>
+                  <p>Department: {student.department}</p>
+                  <div className="flex justify-between mt-4">
+                    <Link to={`/students/${student.id}`} state={student}>
+                      <button className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                        View
+                      </button>
+                    </Link>
+                    <button
+                      onClick={() => handleEdit(student)}
+                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(student.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
