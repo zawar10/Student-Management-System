@@ -24,6 +24,8 @@ const Student = () => {
       name: student.name,
       roll: student.roll,
       department: student.department,
+      age: student.age,
+      hobby: student.hobby,
     });
   };
 
@@ -34,7 +36,7 @@ const Student = () => {
     setStudents(updatedStudents);
     localStorage.setItem("students", JSON.stringify(updatedStudents));
     setEditingId(null);
-    setEditForm({ name: "", roll: "", department: "" });
+    setEditForm({ name: "", roll: "", department: "", age: "", hobby: "" });
   };
 
   return (
@@ -61,6 +63,7 @@ const Student = () => {
             >
               {editingId === student.id ? (
                 <>
+                <label className="text-l font-semibold">Name: </label>
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.name}
@@ -68,6 +71,7 @@ const Student = () => {
                       setEditForm({ ...editForm, name: e.target.value })
                     }
                   />
+                <label className="text-l font-semibold">Roll: </label>
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.roll}
@@ -75,11 +79,28 @@ const Student = () => {
                       setEditForm({ ...editForm, roll: e.target.value })
                     }
                   />
+                <label className="text-l font-semibold">Dept: </label>  
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.department}
                     onChange={(e) =>
                       setEditForm({ ...editForm, department: e.target.value })
+                    }
+                  />
+                <label className="text-l font-semibold">Age: </label>  
+                  <input
+                    className="border p-1 mb-2 w-full rounded"
+                    value={editForm.age}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, age: e.target.value })
+                    }
+                  />
+                <label className="text-l font-semibold">Hobby: </label>  
+                  <input
+                    className="border p-1 mb-2 w-full rounded"
+                    value={editForm.hobby}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, hobby: e.target.value })
                     }
                   />
                   <button
