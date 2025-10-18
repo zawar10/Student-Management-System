@@ -1,64 +1,106 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import bgImage from "../assets/bg-pic.jpg";
 
-const gradePoints = {
-  "A+": 4.0,
-  A: 3.7,
-  "A-": 3.5,
-  "B+": 3.3,
-  B: 3.0,
-  "B-": 2.7,
-  "C+": 2.3,
-  C: 2.0,
-  "C-": 1.7,
-  D: 1.0,
-  F: 0.0,
-};
-
 const CGPA = () => {
-  const [subjects, setSubjects] = useState([]);
-  const [cgpa, setCgpa] = useState(0);
+  const [subjects, setSubjects] = useState([{ credit: "", grade: "" }]);
+  const [cgpa, setCgpa] = useState(null);
 
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("subjects")) || [];
-    setSubjects(saved);
-    calculateCGPA(saved);
-  }, []);
+  const gradePoints = {
+    A: 4.0,
+    "A-": 3.7,
+    "B+": 3.3,
+    B: 3.0,
+    "B-": 2.7,
+    "C+": 2.3,
+    C: 2.0,
+    "C-": 1.7,
+    D: 1.0,
+    F: 0.0,
+  };
 
-  const calculateCGPA = (data) => {
-    if (data.length === 0) return setCgpa(0);
-    let totalPoints = 0,
-      totalCredits = 0;
-    data.forEach((sub) => {
-      const points = gradePoints[sub.grade.toUpperCase()] || 0;
-      totalPoints += points * parseFloat(sub.credit);
-      totalCredits += parseFloat(sub.credit);
+  const handleChange = (index, field, value) => {
+    const updated = [...subjects];
+    updated[index][field] = value;
+    setSubjects(updated);
+  };
+
+  const addSubject = () => {
+    setSubjects([...subjects, { credit: "", grade: "" }]);
+  };
+
+  const calculateCGPA = () => {
+    let totalPoints = 0;
+    let totalCredits = 0;
+
+    subjects.forEach((subj) => {
+      const gradeValue = gradePoints[subj.grade.toUpperCase()];
+      const creditValue = parseFloat(subj.credit);
+      if (gradeValue && creditValue) {
+        totalPoints += gradeValue * creditValue;
+        totalCredits += creditValue;
+      }
     });
-    setCgpa(totalCredits ? (totalPoints / totalCredits).toFixed(2) : 0);
+
+    if (totalCredits === 0) {
+      setCgpa(0);
+    } else {
+      setCgpa((totalPoints / totalCredits).toFixed(2));
+    }
   };
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center"
+      className="min-h-screen flex flex-col items-center py-20 pt-28"
       style={{
         backgroundImage: `url(${bgImage})`,
-        backgroundColor: "rgba(0,0,0,0.6)",
+        backgroundColor: "rgba(0,0,0,0.7)",
         backgroundBlendMode: "darken",
       }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96 text-center">
-        <h1 className="text-3xl font-bold mb-4">Your CGPA</h1>
-        <p className="text-5xl font-bold text-red-600 mb-4">{cgpa}</p>
-        {subjects.length === 0 ? (
-          <p className="text-gray-600">No subjects available.</p>
-        ) : (
-          <ul className="text-left text-gray-700">
-            {subjects.map((s) => (
-              <li key={s.id} className="mb-2">
-                {s.name} ({s.credit} cr): {s.grade}
-              </li>
-            ))}
-          </ul>
+      <h1 className="text-4xl font-bold text-white mb-8">
+        CGPA <span className="text-red-600">Calculator</span>
+      </h1>
+
+      <div className="bg-white/10 backdrop-blur-md p-8 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/2 text-center">
+        {subjects.map((subj, index) => (
+          <div key={index} className="flex justify-center gap-4 mb-4">
+            <input
+              type="number"
+              placeholder="Credit Hours"
+              value={subj.credit}
+              onChange={(e) => handleChange(index, "credit", e.target.value)}
+              className="p-2 rounded bg-gray-800/60 text-white focus:outline-none"
+            />
+            <input
+              type="text"
+              placeholder="Grade (A, B+, C...)"
+              value={subj.grade}
+              onChange={(e) => handleChange(index, "grade", e.target.value)}
+              className="p-2 rounded bg-gray-800/60 text-white focus:outline-none"
+            />
+          </div>
+        ))}
+
+        <div className="flex justify-center gap-4 mt-4">
+          <button
+            onClick={addSubject}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+          >
+            Add Subject
+          </button>
+          <button
+            onClick={calculateCGPA}
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
+          >
+            Calculate CGPA
+          </button>
+        </div>
+
+        {cgpa !== null && (
+          <div className="mt-6 text-white text-lg">
+            <strong>Your CGPA:</strong>{" "}
+            <span className="text-yellow-500">{cgpa}</span>
+          </div>
         )}
       </div>
     </div>

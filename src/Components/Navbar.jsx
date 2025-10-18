@@ -17,7 +17,6 @@ const Navbar = () => {
     window.location.reload();
     setIsLoggedIn(false);
     setShowDropdown(false);
-    navigate("/login");
   };
 
 

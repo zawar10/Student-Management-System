@@ -1,105 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import bgImage from "../assets/bg-pic.jpg";
 
 const Subjects = () => {
-  const [subject, setSubject] = useState({ name: "", credit: "", grade: "" });
-  const [subjects, setSubjects] = useState([]);
-
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("subjects")) || [];
-    setSubjects(saved);
-  }, []);
-
-  const handleChange = (e) => {
-    setSubject({ ...subject, [e.target.name]: e.target.value });
-  };
-
-  const handleAdd = (e) => {
-    e.preventDefault();
-    if (!subject.name || !subject.credit || !subject.grade)
-      return alert("Please fill all fields");
-    const newSubjects = [...subjects, { id: Date.now(), ...subject }];
-    setSubjects(newSubjects);
-    localStorage.setItem("subjects", JSON.stringify(newSubjects));
-    setSubject({ name: "", credit: "", grade: "" });
-  };
-
-  const handleDelete = (id) => {
-    const updated = subjects.filter((s) => s.id !== id);
-    setSubjects(updated);
-    localStorage.setItem("subjects", JSON.stringify(updated));
-  };
+  const subjects = [
+    { id: "CS101", name: "Introduction to Programming", cr: 3 },
+    { id: "CS102", name: "Data Structures & Algorithms", cr: 3 },
+    { id: "CS201", name: "Database Lab", cr: 1 },
+    { id: "CS202", name: "Object-Oriented Programming", cr: 3 },
+    { id: "CS301", name: "Web Development", cr: 2 },
+    { id: "CS302", name: "Operating Systems", cr: 3 },
+    { id: "CS401", name: "Artificial Intelligence", cr: 2 },
+    { id: "CS402", name: "Software Design Architecture", cr: 3 },
+  ];
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center py-10 pt-24"
+      className="min-h-screen flex flex-col items-center py-20 pt-28"
       style={{
         backgroundImage: `url(${bgImage})`,
-        backgroundColor: "rgba(0,0,0,0.6)",
+        backgroundColor: "rgba(0,0,0,0.7)",
         backgroundBlendMode: "darken",
       }}
     >
-      <h1 className="text-3xl font-bold text-white mb-6">
-        Subject <span className="text-red-600">Management</span>
+      <h1 className="text-4xl font-bold text-white mb-8">
+        Offered <span className="text-red-600">Subjects</span>
       </h1>
 
-      <form
-        onSubmit={handleAdd}
-        className="bg-white p-6 rounded-lg shadow-lg w-80 mb-8 flex flex-col gap-3"
-      >
-        <input
-          name="name"
-          placeholder="Subject Name"
-          value={subject.name}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          name="credit"
-          placeholder="Credit Hours"
-          value={subject.credit}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          name="grade"
-          placeholder="Grade (A, B+, C, etc)"
-          value={subject.grade}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <button
-          type="submit"
-          className="bg-red-600 text-white py-2 rounded hover:bg-red-700"
-        >
-          Add Subject
-        </button>
-      </form>
-
-      {subjects.length === 0 ? (
-        <p className="text-white">No Subjects Added</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {subjects.map((sub) => (
-            <div
-              key={sub.id}
-              className="bg-white rounded-xl shadow-md p-6 w-72 hover:scale-105 transition-transform"
-            >
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {sub.name}
-              </h2>
-              <p>Credit Hours: {sub.credit}</p>
-              <p>Grade: {sub.grade}</p>
-              <button
-                onClick={() => handleDelete(sub.id)}
-                className="mt-4 bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
+      <div className="bg-white/10 backdrop-blur-md p-8 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/2 text-center">
+        <table className="w-full text-white border-collapse">
+          <thead>
+            <tr className="bg-red-700 text-white text-center">
+              <th className="py-3 px-4 border-b border-gray-500">Course ID</th>
+              <th className="py-3 px-4 border-b border-gray-500">Subject Name</th>
+              <th className="py-3 px-4 border-b border-gray-500">Credit Hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            {subjects.map((subject, index) => (
+              <tr
+                key={index}
+                className="hover:bg-gray-700/60 transition duration-200"
               >
-                Delete
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+                <td className="py-2 px-4 border-b border-gray-600 text-red-400 font-semibold">
+                  {subject.id}
+                </td>
+                <td className="py-2 px-4 border-b border-gray-600">{subject.name}</td>
+                <td className="py-2 px-4 border-b border-gray-600">{subject.cr}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
