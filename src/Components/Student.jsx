@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import bgImage from "../assets/bg-pic.jpg";
 
@@ -8,15 +9,20 @@ const Student = () => {
   const [editForm, setEditForm] = useState({ name: "", roll: "", department: "" });
 
   useEffect(() => {
-    const savedStudents = JSON.parse(localStorage.getItem("students")) || [];
-    setStudents(savedStudents);
+    axios.get("http://localhost:3000/students")
+      .then((res) => setStudents(res.data))
+      .catch((err) => console.error("Error fetching students:", err));
   }, []);
 
-  const handleDelete = (id) => {
-    const updated = students.filter((s) => s.id !== id);
-    setStudents(updated);
-    localStorage.setItem("students", JSON.stringify(updated));
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/students/${id}`);
+      setStudents(students.filter((s) => s.id !== id));
+    } catch (error) {
+      console.error("Error deleting student:", error);
+    }
   };
+
 
   const handleEdit = (student) => {
     setEditingId(student.id);
@@ -29,15 +35,17 @@ const Student = () => {
     });
   };
 
-  const handleSave = () => {
-    const updatedStudents = students.map((s) =>
-      s.id === editingId ? { ...s, ...editForm } : s
-    );
-    setStudents(updatedStudents);
-    localStorage.setItem("students", JSON.stringify(updatedStudents));
-    setEditingId(null);
-    setEditForm({ name: "", roll: "", department: "", age: "", hobby: "" });
+  const handleSave = async () => {
+    try {
+      await axios.put(`http://localhost:3000/students/${editingId}`, editForm);
+      const res = await axios.get("http://localhost:3000/students");
+      setStudents(res.data);
+      setEditingId(null);
+    } catch (error) {
+      console.error("Error updating student:", error);
+    }
   };
+
 
   return (
     <div
@@ -63,7 +71,7 @@ const Student = () => {
             >
               {editingId === student.id ? (
                 <>
-                <label className="text-l font-semibold">Name: </label>
+                  <label className="text-l font-semibold">Name: </label>
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.name}
@@ -71,7 +79,7 @@ const Student = () => {
                       setEditForm({ ...editForm, name: e.target.value })
                     }
                   />
-                <label className="text-l font-semibold">Roll: </label>
+                  <label className="text-l font-semibold">Roll: </label>
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.roll}
@@ -79,7 +87,7 @@ const Student = () => {
                       setEditForm({ ...editForm, roll: e.target.value })
                     }
                   />
-                <label className="text-l font-semibold">Dept: </label>  
+                  <label className="text-l font-semibold">Dept: </label>
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.department}
@@ -87,7 +95,7 @@ const Student = () => {
                       setEditForm({ ...editForm, department: e.target.value })
                     }
                   />
-                <label className="text-l font-semibold">Age: </label>  
+                  <label className="text-l font-semibold">Age: </label>
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.age}
@@ -95,7 +103,7 @@ const Student = () => {
                       setEditForm({ ...editForm, age: e.target.value })
                     }
                   />
-                <label className="text-l font-semibold">Hobby: </label>  
+                  <label className="text-l font-semibold">Hobby: </label>
                   <input
                     className="border p-1 mb-2 w-full rounded"
                     value={editForm.hobby}

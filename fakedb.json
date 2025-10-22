@@ -1,0 +1,20 @@
+{
+  "students": [
+    {
+      "name": "Sara",
+      "roll": "101",
+      "department": "BSCS",
+      "age": "20",
+      "hobby": "Reading",
+      "id": "87f3"
+    },
+    {
+      "id": "e01c",
+      "name": "Ali",
+      "roll": "201",
+      "department": "BSSE",
+      "age": "21",
+      "hobby": "Football"
+    }
+  ]
+}

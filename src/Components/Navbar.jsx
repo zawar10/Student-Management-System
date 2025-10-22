@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
 
   const [darkMode, setDarkMode] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,6 +18,7 @@ const Navbar = () => {
     window.location.reload();
     setIsLoggedIn(false);
     setShowDropdown(false);
+    navigate("/login")
   };
 
 
@@ -30,7 +32,7 @@ const Navbar = () => {
       <ul className="flex space-x-8 text-xl ml-8">
         <li>
           <NavLink
-            to="/"
+            to="/home"
             className={({ isActive }) =>
               isActive ? "text-red-600 font-extrabold" : "hover:text-red-500"
             }
